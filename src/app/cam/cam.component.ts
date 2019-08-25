@@ -93,10 +93,11 @@ export class CamComponent implements OnInit {
 
   triggernewSnapshot(){
     this.webcamImage=null;
+    this.result = null;
   }
 
   async predict() {
-
+    this.result = null;
     this.imageData = this.webcamImage.imageData;
     // console.log(this.imageData)
 
