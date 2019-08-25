@@ -1,0 +1,33 @@
+<div style="text-align:center">
+    <h1>
+        Image Identifier
+    </h1>
+    
+    <div *ngIf="!webcamImage">
+        <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)" *ngIf="showWebcam"
+                [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable"
+                [videoOptions]="videoOptions"
+                [imageQuality]="1"
+                (cameraSwitched)="cameraWasSwitched($event)" [captureImageData]="captureImageData"
+                (initError)="handleInitError($event)"
+        ></webcam>
+        <br/>
+        <button class="actionBtn" (click)="triggerSnapshot();">Take A Snapshot</button>
+        <button class="actionBtn" (click)="toggleWebcam();">Toggle Webcam</button>
+        <br/>
+        <br/>
+    </div>
+</div>
+    
+<div class="snapshot" *ngIf="webcamImage">
+    <h2 *ngIf="result">It's a <strong>{{result}}</strong></h2>
+    <img [src]="webcamImage.imageAsDataUrl"/><hr>
+    <button (click)="predict()">Predict</button>
+    <button (click)="triggernewSnapshot()">Retake Snapshot</button>
+</div>
+    
+<h4 *ngIf="errors.length > 0">Messages:</h4>
+<ul *ngFor="let error of errors">
+<li>{{error | json}}</li>
+</ul>
+<button routerLink='["/home"]'>Back</button>

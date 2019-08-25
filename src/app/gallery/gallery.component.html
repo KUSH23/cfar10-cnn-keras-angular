@@ -1,0 +1,11 @@
+<input type="file" name="pic" accept="image/*" (change)="onFileChange($event)" >
+<div *ngIf="imageSrc">
+    <h2 *ngIf="result">It's a <strong>{{result}}</strong></h2>
+<img id="pic" [src]="imageSrc" style="width:256px;height:256px;" alt="your image" />
+
+<div><button (click)="predict()">Predict</button></div>
+
+</div>
+<div>
+<button routerLink='["/home"]'>Back</button>
+</div>
