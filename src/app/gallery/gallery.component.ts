@@ -41,20 +41,20 @@ export class GalleryComponent implements AfterViewInit {
     this.userFile = event.target.files[0];
     this.imageSelected = this.userFile.name;
 
-    let canvas = this.mycanvas.nativeElement as HTMLCanvasElement;
-    let ctx = canvas.getContext('2d');
+    // let canvas = this.mycanvas.nativeElement as HTMLCanvasElement;
+    let ctx = this.canvas.getContext('2d');
 
     var reader = new FileReader();
       reader.onload = (e: any) => {
         var img = new Image();
         img.onload = () => {
-          canvas.width = img.width;
-          canvas.height = img.height;
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+          this.canvas.width = img.width;
+          this.canvas.height = img.height;
+          ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
         };
         img.src = e.target.result;
-        this.canvas = canvas;
-        var dataURL = canvas.toDataURL("image/png");
+        // this.canvas = canvas;
+        var dataURL = this.canvas.toDataURL("image/png");
         let url = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
         // console.log(url)
       };
