@@ -21,7 +21,7 @@
     
 <div class="snapshot" *ngIf="webcamImage">
     <h2 *ngIf="result">It's a <strong>{{result}}</strong></h2>
-    <img [src]="webcamImage.imageAsDataUrl"/><hr>
+    <img [src]="webcamImage.imageAsDataUrl" style="width:256px;height:256px;"/><hr>
     <button (click)="predict()">Predict</button>
     <button (click)="triggernewSnapshot()">Retake Snapshot</button>
 </div>

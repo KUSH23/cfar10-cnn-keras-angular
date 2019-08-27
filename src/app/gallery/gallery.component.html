@@ -1,12 +1,10 @@
-<input type="file" name="pic" accept="image/*" (change)="onFileChange($event)" >
-<div *ngIf="imageSrc">
-    <h2 *ngIf="result">It's a <strong>{{result}}</strong></h2>
-<img id="pic" [src]="imageSrc" style="width:256px;height:256px;" alt="your image" />
+<h3>Image Identifier</h3>
+<form><div *ngIf="imageSelected"><button (click)="predict()">Predict</button></div>
+    Photo <input type="file" accept="image/*" (change)="onFileChange($event)" >
+    <h2 *ngIf="result && imageSelected">It's a <strong>{{result}}</strong></h2>
+    <br>
+    <canvas #mycanvas width="256" height="256" style="border: 1px solid rgb(98, 59, 238)"></canvas><br>
+</form>
+<div *ngIf="imageSelected"><button (click)="predict()">Predict</button></div>
 
-<div><button (click)="predict()">Predict</button></div>
 
-</div>
-<div>
-    <p>will update soon!</p>
-<button routerLink='["/home"]'>Back</button>
-</div>

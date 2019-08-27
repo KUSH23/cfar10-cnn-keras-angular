@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {WebcamModule} from 'ngx-webcam';
 import {FormsModule} from '@angular/forms';
 
@@ -16,13 +16,14 @@ import { GalleryComponent } from './gallery/gallery.component';
     AppComponent,
     HomeComponent,
     CamComponent,
-    GalleryComponent
+    GalleryComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     WebcamModule,
     FormsModule,
+    HttpClientModule
   ],
   providers: [
     DataService
