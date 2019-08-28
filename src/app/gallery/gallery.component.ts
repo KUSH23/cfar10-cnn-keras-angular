@@ -1,7 +1,9 @@
 import { Component, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import * as tf from '@tensorflow/tfjs';
 import { DataService } from '../data.service';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { NgxPicaService, NgxPicaErrorInterface } from 'ngx-pica';
 
 @Component({
   selector: 'app-gallery',
@@ -10,6 +12,7 @@ import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 })
 export class GalleryComponent implements AfterViewInit {
 
+  images: File[] = [];
   userFile: any;
   imageSelected: any;
   ctx: CanvasRenderingContext2D;
@@ -21,9 +24,9 @@ export class GalleryComponent implements AfterViewInit {
   
   @ViewChild("mycanvas", {static: true}) mycanvas;
 
-  constructor(private idata: DataService,
-    private el: ElementRef,
-    private http: HttpClient) { }
+  constructor(
+    private _ngxPicaService: NgxPicaService
+    ) { }
 
   ngAfterViewInit() {
     this.loadModel();
@@ -41,32 +44,44 @@ export class GalleryComponent implements AfterViewInit {
     this.userFile = event.target.files[0];
     this.imageSelected = this.userFile.name;
 
-    // let canvas = this.mycanvas.nativeElement as HTMLCanvasElement;
     let ctx = this.canvas.getContext('2d');
-
-    var reader = new FileReader();
-      reader.onload = (e: any) => {
-        var img = new Image();
-        img.onload = () => {
-          this.canvas.width = img.width;
-          this.canvas.height = img.height;
-          ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
+    
+    
+    this._ngxPicaService.resizeImage(this.userFile, 32, 32, {})
+      .subscribe((imageResized: File) => { 
+        
+        var reader = new FileReader();
+        reader.onload = (e: any) => {
+          
+          var img = new Image();
+          
+          img.onload = () => {
+            this.canvas.width = img.width;
+            this.canvas.height = img.height;
+            
+            ctx.drawImage(img, 0, 0, this.canvas.width, this.canvas.height)
+          };
+          img.src = e.target.result;
+          // this.canvas = canvas;
+          var dataURL = this.canvas.toDataURL("image/png");
+          let url = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+          // console.log(url)
         };
-        img.src = e.target.result;
-        // this.canvas = canvas;
-        var dataURL = this.canvas.toDataURL("image/png");
-        let url = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        // console.log(url)
-      };
-      reader.readAsDataURL(event.target.files[0]);
-      
+        reader.readAsDataURL(event.target.files[0]);
+        
+    }, (err: NgxPicaErrorInterface) => {
+        throw err.err;
+    });
+
+    
   }
-
+ 
   async getImgData() {
-
+    
+    console.log(this.canvas.width);
     this.ctx.drawImage(this.canvas, 0, 0, 32, 32);
     this.imagedata = this.ctx.getImageData(0, 0, 32, 32);
-    console.log(this.imagedata)
+    console.log(this.imagedata);
   }
 
 

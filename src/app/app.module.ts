@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {WebcamModule} from 'ngx-webcam';
 import {FormsModule} from '@angular/forms';
-
+import { NgxPicaModule } from 'ngx-pica';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -23,7 +23,8 @@ import { GalleryComponent } from './gallery/gallery.component';
     AppRoutingModule,
     WebcamModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxPicaModule
   ],
   providers: [
     DataService
